@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <title>Nice Form</title>
+</head>
+<body>
+    <h2 class="title">自 动 相 册</h2>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="/login/registAccount/" method="POST">
+                {% csrf_token %}
+                <h1>创建账户</h1>
+                <div class="social-container">
+                    <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
+                    <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
+                    <a href="https://www.alipay.com/" class="social" target="_blank"><i class="iconfont icon-zhifubao"></i></a>
+                </div>
+<!--                <span>or use your email for registeration</span>-->
+                <input type="text" placeholder="Name" name="username"/>
+                <input type="password" placeholder="Password" name="password"/>
+                <input type="password" placeholder="Password Confirm" name="password_confirm"/>
+                <button type="submit">注册</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="/login/loginAccount/" method="POST">
+                {% csrf_token %}
+                <h1>登录</h1>
+                <div class="social-container">
+                    <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
+                    <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
+                    <a href="https://www.alipay.com/" class="social" target="_blank"><i class="iconfont icon-zhifubao"></i></a>
+                </div>
+<!--                <span>or use your account</span>-->
+                <input type="text" placeholder="Name" name="username"/>
+                <input type="password" placeholder="Password" name="password"/>
+                <a>Forget your password?</a>
+                <button type="submit">登录</button>
+                <a class="login_msg">{{ login_msg }}</a>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>让每个人都能享受科技的乐趣</h1>
+                    <p>登录账户，开启相册分类之旅</p>
+                    <button class="ghost" id="signIn">登录</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>永远相信美好的事情即将发生</h1>
+                    <p>注册账户，加入我们</p>
+                    <button class="ghost" id="signUp">注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <footer>-->
+<!--        <p>-->
+<!--            Created with <i class="fa fa-heart"></i> by-->
+<!--            <a target="_blank" href="#">Florin Pop</a>-->
+<!--            - Read how I created this and how you can join the challenge-->
+<!--            <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.-->
+<!--        </p>-->
+<!--    </footer>-->
+</body>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
+</html>
