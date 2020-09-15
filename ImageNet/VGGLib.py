@@ -3,6 +3,7 @@ import torch
 import cv2
 import numpy as np
 
+USE_GPU = False
 net = None
 device = None
 labelName = []
@@ -103,18 +104,23 @@ def loadLabelName():
 
 
 def classifyImage(img):
-    global net, device, labelName
+    global net, device, labelName, USE_GPU
     if net is None:
         print("Loading Net...")
-        device = torch.device("cuda:0")
-        net = torch.load("./ImageNet/net_tiny_final.pkl").to(device)
+        if torch.cuda.is_available():
+            USE_GPU = True
+            device = torch.device("cuda:0")
+            net = torch.load("./ImageNet/net_tiny_final.pkl").to(device)
+        else:
+            net = torch.load("./ImageNet/net_tiny_final.pkl", map_location=torch.device('cpu'))
         labelName = loadLabelName()
     img = cv2.resize(img, (64, 64), cv2.INTER_AREA)
     img = np.transpose(img, (2, 0, 1))
     img = torch.FloatTensor(img)
     img = img.unsqueeze(0)
     img = img / 255
-    img = img.to(device)
+    if USE_GPU:
+        img = img.to(device)
     outputs = net(img)
     _, predicted = torch.max(outputs.data, 1)
     result = predicted[0].cpu().numpy()
